@@ -119,5 +119,5 @@ function get(){
     }
   }
 })
-  alert_text.innerHTML = "正在向服务器请求中..."
+  alert_text.innerHTML = "正在向服务器请求中...(土豆服务器见谅)"
 }
