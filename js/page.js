@@ -16,7 +16,7 @@ function get(){
   console.log(JSON.stringify(send));
   let alert_text = document.getElementById("alert_txt");
 
-  $.ajax({type : "get",
+  $.ajax({type : "post",
   url : SERVER_URL,
   data : JSON.stringify(send),
   dataType : "json",
