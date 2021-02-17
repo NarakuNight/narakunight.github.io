@@ -20,16 +20,15 @@ for (i=1;i<=4;i++){
 }
 
 function updName(){
-  node.childNodes.forEach(element => {
-    element.name = "qu" + qCount;
-  });
+  for (let i = 0; i < node.childNodes.length; i++) {
+    node.childNodes.name = "qu" + qCount;
+  }
   qCount++;
 }
 
 function createQuestion(q){
   count++;
   let no = node.cloneNode(true);
-  console.log(no);
   no.id = "q" + count;
   
   no.childNodes[0].appendChild(document.createTextNode(count + '.' + q.con))
