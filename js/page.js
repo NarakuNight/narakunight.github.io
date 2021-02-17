@@ -70,13 +70,13 @@ function loadTest(data){
   });
   let h1 = document.createElement("b");
   h1.innerHTML = "出题者 - ";
-  att.appendChild(document.createTextNode(text));
+  h1.appendChild(document.createTextNode(text));
   att.appendChild(h1);
 
   att.appendChild(document.createElement("br"));
   let h2 = document.createElement("b");
   h2.innerHTML = "问卷页制作 - ";
-  att.appendChild(document.createTextNode("Naraku_Night"));
+  h2.appendChild(document.createTextNode("Naraku_Night"));
   att.appendChild(h2);
 
   form.appendChild(att);
