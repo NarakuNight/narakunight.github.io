@@ -21,7 +21,9 @@ for (i=1;i<=4;i++){
 
 function updName(){
   for (let i = 0; i < node.childNodes.length; i++) {
-    node.childNodes.name = "qu" + qCount;
+    if (i != 0){
+      node.childNodes[i].childNodes[0].name = "qu" + qCount;
+    }
   }
   qCount++;
 }
