@@ -87,19 +87,28 @@ function get(){
   success : function(data){
     console.log(data.type);
     try {
-      if(data.type == "err"){
-        alert_text.innerHTML = ("向服务器请求时发生错误");
-      }else if (data.type == "iprep"){
-        alert_text.innerHTML = "您的IP与已注册ID中IP重复"
-      }else if (data.type = "test"){
-        alert_text.innerHTML = "加载题目..."
-        loadTest(data);
-      }else if (data.type == "iperr"){
-        alert_text.innerHTML = "检查IP时出现错误";
-      }else if (data.type == "idrep"){
-        alert_text.innerHTML = "此ID已注册"
-      }else if (data.type == "iderr"){
-        alert_text.innerHTML = "请检查你的id是否有效";
+      switch (data.type){
+        case "err":
+          alert_text.innerHTML = ("向服务器请求时发生错误");
+          break;
+        case "iprep":
+          alert_text.innerHTML = "您的IP与已注册ID中IP重复";
+          break;
+        case "iperr":
+          alert_text.innerHTML = "检查IP时出现错误";
+          break;
+        case "idrep":
+          alert_text.innerHTML = "此ID已注册";
+          break;
+        case "iderr":
+          alert_text.innerHTML = "请检查你的id是否有效";
+          break;
+        case "test":
+          alert_text.innerHTML = "加载题目..."
+          loadTest(data);
+          break;
+        default:
+          alert_text.innerHTML = "无效返回";
       }
     } catch (error) {
       console.error(error);
