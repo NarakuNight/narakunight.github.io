@@ -1,4 +1,5 @@
 const SERVER_URL = "https://request.pluteam.xyz/";
+var totalQue = 0;
 var count = 0;
 var qCount = 0;
 
@@ -33,6 +34,8 @@ function createQuestion(q){
 
 function loadTest(data){
   console.log(data);
+  totalQue = data.q.length;
+
   document.getElementById("head11").remove();
   let form = document.getElementById("q_form");
 
@@ -41,12 +44,13 @@ function loadTest(data){
   });
 
   let spec_div = document.createElement("div");
-  spec_div.appendChild(document.createTextNode("所擅长的方面:(最多20字)"));
+  spec_div.appendChild(document.createTextNode("EX.所擅长的方面:(最多20字)"));
   spec_div.appendChild(document.createElement("br"));
   let spec = document.createElement("input");
   spec.type = "text";
   spec.id = "special";
   spec_div.appendChild(spec);
+  spec_div.style = "text-align:center";
   form.appendChild(spec_div);
 
   let div = document.createElement("div");
@@ -129,10 +133,16 @@ function get(){
   alert_text.innerHTML = "正在向服务器请求中...(原谅我们的土豆服务器)"
 }
 
-var q_list = [];
+var q_list = {
+  id:"",
+  ip:"",
+  ans:[],
+  spec:""
+};
 function check(){
   let form = document.getElementById("q_form");
 
+  let ans = [];
   form.childNodes.forEach(element => {
     
   });
