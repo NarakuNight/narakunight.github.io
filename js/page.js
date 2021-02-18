@@ -2,47 +2,32 @@ const SERVER_URL = "https://request.pluteam.xyz/";
 var count = 0;
 var qCount = 0;
 
-var node = document.createElement("div");
+var node = document.createElement("form");
 var text = document.createElement("div");
 var submit = document.createElement("input");
 submit.type = "button";
 submit.value = "提交";
 
-node.appendChild(text.cloneNode());
-for (i=1;i<=4;i++){
-  let div = text.cloneNode();
-  let radio = document.createElement("input");
-  radio.type = "radio";
-  radio.value = i.toString();
-  radio.name = "qu" + qCount;
-  div.appendChild(radio);
-  node.appendChild(div);
-}
-
-function updName(){
-  for (let i = 0; i < node.childNodes.length; i++) {
-    if (i != 0){
-      node.childNodes[i].childNodes[0].name = "qu" + qCount;
-    }
-  }
-  qCount++;
-}
-
 function createQuestion(q){
   count++;
+  qCount++;
   let no = node.cloneNode(true);
-  no.id = "q" + count;
-  
-  no.childNodes[0].appendChild(document.createTextNode(count + '.' + q.con))
-  let j = 1;
-  for(i = 0;i<no.childNodes.length;i++){
-    if (i != 0){
-      no.childNodes[i].appendChild(document.createTextNode(q['s' + j]));
-      j++;
-    }
+  let que = text.cloneNode();
+  que.appendChild(document.createTextNode(count + "." + q.con));
+  no.appendChild(que);
+
+  for (i=1;i<=4;i++){
+    let radio = document.createElement("input");
+    radio.type = "radio";
+    radio.value = i.toString();
+    radio.name = "qu" + qCount;
+    no.appendChild(radio);
+    no.appendChild(document.createTextNode(q["s" + i]));
+    no.appendChild(document.createElement("br"));
   }
 
-  updName();
+  no.id = "q" + count;
+
   return no;
 }
 
@@ -113,6 +98,8 @@ function get(){
         alert_text.innerHTML = "检查IP时出现错误";
       }else if (data.type == "idrep"){
         alert_text.innerHTML = "此ID已注册"
+      }else if (data.type == "iderr"){
+        alert_text.innerHTML = "请检查你的id是否有效";
       }
     } catch (error) {
       console.error(error);
