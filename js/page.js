@@ -6,6 +6,7 @@ var qCount = 0;
 const node = document.createElement("form");
 const text = document.createElement("div");
 const submit = document.createElement("input");
+node.className = "question";
 submit.type = "button";
 submit.value = "提交";
 
@@ -62,7 +63,7 @@ function loadTest(data){
   div.appendChild(alert_text);
   form.appendChild(div);
   
-  let att = document.createElement("div");
+  /*let att = document.createElement("div");
   div.style = "text-align:center";
   let h = document.createElement("h3");
   h.innerHTML = "制作者"
@@ -83,9 +84,15 @@ function loadTest(data){
   h2.appendChild(document.createTextNode("Naraku_Night"));
   att.appendChild(h2);
 
-  form.appendChild(att);
+  form.appendChild(att);*/
 }
 
+var q_list = {
+  req:"check",
+  id:"",
+  ip:"",
+  ans:[],
+};
 function get(){
   let send = {req : "get",
     id : document.getElementById("game_id").value,
@@ -99,7 +106,7 @@ function get(){
   data : JSON.stringify(send),
   async : true,
   error : function(err){
-    alert_text.innerHTML = ("错误:\n" + err.code);
+    alert_text.innerHTML = ("错误:\n" + err);
     console.error(err);
   },
   success : function(data){
@@ -122,6 +129,8 @@ function get(){
           alert_text.innerHTML = "请检查你的id是否有效";
           break;
         case "test":
+          q_list.id = document.getElementById("game_id").value;
+          q_list.ip = returnCitySN["cip"];
           alert_text.innerHTML = "加载题目..."
           loadTest(data);
           break;
@@ -134,15 +143,9 @@ function get(){
     }
   }
 })
-  alert_text.innerHTML = "正在向服务器请求中...(原谅我们的土豆服务器)"
+  alert_text.innerHTML = "正在向服务器请求中...(用的是免费sql,会很慢)"
 }
 
-var q_list = {
-  id:"",
-  ip:"",
-  ans:[],
-  spec:""
-};
 var answered = 0;
 var sure = false;
 function check(){
@@ -150,20 +153,82 @@ function check(){
   let form = document.getElementById("q_form");
 
   let ans = [];
-  let i = 0;
+  let j = 0;
   form.childNodes.forEach(element => {
-    element.childNodes.forEach(element => {
-      if(element.tagName.toLowerCase() == 'input' &&
-      element.type.toLowerCase() == 'radio'){
-        if (element.checked == true){
-          ans[i] = parseInt(element.value);
-          answered++;
-          break;
-        }else{
-          ans[i] = 0;
+    if(element.className == "question"){
+      for (let i = 0; i < element.childNodes.length; i++) {
+        let tepm1 = element.childNodes[i]
+        if(tepm1.type == "radio"){
+          if(tepm1.checked == true){
+            ans[j] = parseInt(tepm1.value);
+            answered++;
+            break;
+          }else{
+            ans[j] = 0;
+          }
         }
-      }i++;
-    });
+      }
+      j++;
+    }
   });
+  ans[totalQue] = document.getElementById("special").value;
   console.log(answered);
+
+  let alert = document.getElementById("alert_text");
+
+  if(document.getElementById("special").value.length > 20){
+    alert.innerHTML = "超过20字限制";
+    return;
+  }
+
+  if(answered < totalQue && document.getElementById("special").value === ""){
+    if(!sure){
+      alert.innerHTML = "问卷未完成,确定要提交?(没有回答的问题视为错误)"
+      sure = true;
+    }else{
+      q_list.ans = ans;
+      post();
+    }
+  }else{
+    q_list.ans = ans;
+    post();
+  }
+}
+
+function post(){
+  let alert = document.getElementById("alert_text");
+  alert.innerHTML = "提交中..."
+  let json = JSON.stringify(q_list);
+  $.ajax({
+    type : "post",
+    url: SERVER_URL,
+    dataType : "json",
+    data: json,
+    async:true,
+    error:function(err){
+      alert.innerHTML = "发生错误:" + err;
+      console.error(err);
+    },
+    success: function(data){
+      switch(data.type){
+        case "err":
+          alert.innerHTML = "提交时出现错误";
+          break;
+        case "passed":
+          updPage("您已成功通过!服务器白名单已更新,可以加入服务器了")
+          break;
+        case "no_pass":
+          updPage("您未通过问卷测试,如果有特殊原因请联系服主,否则重新填写问卷。")
+          break;
+      }
+    }
+  })
+}
+
+function updPage(data){
+  document.getElementById("q_form").remove();
+  
+  let text = document.createElement("b");
+  text.innerHTML = data;
+  document.getElementById("page").appendChild(text);
 }
