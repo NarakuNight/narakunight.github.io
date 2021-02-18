@@ -146,6 +146,7 @@ var q_list = {
 var answered = 0;
 var sure = false;
 function check(){
+  answered = 0;
   let form = document.getElementById("q_form");
 
   let ans = [];
