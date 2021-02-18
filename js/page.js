@@ -2,9 +2,9 @@ const SERVER_URL = "https://request.pluteam.xyz/";
 var count = 0;
 var qCount = 0;
 
-var node = document.createElement("form");
-var text = document.createElement("div");
-var submit = document.createElement("input");
+const node = document.createElement("form");
+const text = document.createElement("div");
+const submit = document.createElement("input");
 submit.type = "button";
 submit.value = "提交";
 
@@ -39,6 +39,16 @@ function loadTest(data){
   data.q.forEach(element => {
     form.appendChild(createQuestion(element));
   });
+
+  let spec_div = document.createElement("div");
+  spec_div.appendChild(document.createTextNode("所擅长的方面:(最多20字)"));
+  spec_div.appendChild(document.createElement("br"));
+  let spec = document.createElement("input");
+  spec.type = "text";
+  spec.id = "special";
+  spec_div.appendChild(spec);
+  form.appendChild(spec_div);
+
   let div = document.createElement("div");
   div.style = "text-align:center";
   div.appendChild(submit);
@@ -89,7 +99,7 @@ function get(){
     try {
       switch (data.type){
         case "err":
-          alert_text.innerHTML = ("向服务器请求时发生错误");
+          alert_text.innerHTML = "向服务器请求时发生错误";
           break;
         case "iprep":
           alert_text.innerHTML = "您的IP与已注册ID中IP重复";
@@ -116,5 +126,14 @@ function get(){
     }
   }
 })
-  alert_text.innerHTML = "正在向服务器请求中...(土豆服务器见谅)"
+  alert_text.innerHTML = "正在向服务器请求中...(原谅我们的土豆服务器)"
+}
+
+var q_list = [];
+function check(){
+  let form = document.getElementById("q_form");
+
+  form.childNodes.forEach(element => {
+    
+  });
 }
