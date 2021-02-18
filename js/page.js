@@ -44,18 +44,22 @@ function loadTest(data){
   });
 
   let spec_div = document.createElement("div");
+  spec_div.style = "text-align:center";
   spec_div.appendChild(document.createTextNode("EX.所擅长的方面:(最多20字)"));
   spec_div.appendChild(document.createElement("br"));
   let spec = document.createElement("input");
   spec.type = "text";
   spec.id = "special";
   spec_div.appendChild(spec);
-  spec_div.style = "text-align:center";
   form.appendChild(spec_div);
 
+  submit.onclick = check;
   let div = document.createElement("div");
   div.style = "text-align:center";
   div.appendChild(submit);
+  let alert_text = document.createElement("b");
+  alert_text.id = "alert_text";
+  div.appendChild(alert_text);
   form.appendChild(div);
   
   let att = document.createElement("div");
@@ -139,11 +143,26 @@ var q_list = {
   ans:[],
   spec:""
 };
+var answered = 0;
+var sure = false;
 function check(){
   let form = document.getElementById("q_form");
 
   let ans = [];
+  let i = 0;
   form.childNodes.forEach(element => {
-    
+    element.childNodes.forEach(element => {
+      if(element.tagName.toLowerCase() == 'input' &&
+      element.type.toLowerCase() == 'radio'){
+        if (element.checked == true){
+          ans[i] = parseInt(element.value);
+          answered++;
+          break;
+        }else{
+          ans[i] = 0;
+        }
+      }i++;
+    });
   });
+  console.log(answered);
 }
