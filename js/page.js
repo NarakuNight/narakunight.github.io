@@ -143,7 +143,7 @@ function get(){
     }
   }
 })
-  alert_text.innerHTML = "正在向服务器请求中...(用的是免费sql,会很慢)"
+  alert_text.innerHTML = "请求中..."
 }
 
 var answered = 0;
@@ -181,7 +181,7 @@ function check(){
     return;
   }
 
-  if(answered < totalQue && document.getElementById("special").value === ""){
+  if(answered < totalQue || document.getElementById("special").value === ""){
     if(!sure){
       alert.innerHTML = "问卷未完成,确定要提交?(没有回答的问题视为错误)"
       sure = true;
