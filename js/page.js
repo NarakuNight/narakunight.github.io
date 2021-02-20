@@ -90,7 +90,6 @@ function loadTest(data){
 var q_list = {
   req:"check",
   id:"",
-  ip:"",
   ans:[],
 };
 function get(){
@@ -114,23 +113,10 @@ function get(){
     try {
       switch (data.type){
         case "err":
-          alert_text.innerHTML = "向服务器请求时发生错误";
-          break;
-        case "iprep":
-          alert_text.innerHTML = "您的IP与已注册ID中IP重复";
-          break;
-        case "iperr":
-          alert_text.innerHTML = "检查IP时出现错误";
-          break;
-        case "idrep":
-          alert_text.innerHTML = "此ID已注册";
-          break;
-        case "iderr":
-          alert_text.innerHTML = "请检查你的id是否有效";
+          alert_text.innerHTML = "错误:" + data.msg;
           break;
         case "test":
           q_list.id = document.getElementById("game_id").value;
-          q_list.ip = returnCitySN["cip"];
           alert_text.innerHTML = "加载题目..."
           loadTest(data);
           break;
@@ -139,7 +125,7 @@ function get(){
       }
     } catch (error) {
       console.error(error);
-      alert_text.innerHTML = "发生错误:" + error;
+      alert_text.innerHTML = "错误:" + error;
     }
   }
 })
@@ -212,7 +198,7 @@ function post(){
     success: function(data){
       switch(data.type){
         case "err":
-          alert.innerHTML = "提交时出现错误";
+          alert.innerHTML = "错误:" + data.msg;
           break;
         case "passed":
           updPage("您已成功通过!服务器白名单已更新,可以加入服务器了")
