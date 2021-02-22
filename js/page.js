@@ -1,4 +1,4 @@
-const SERVER_URL = "https://request.pluteam.xyz/";
+const SERVER_URL = "https://8.136.4.8/";
 var totalQue = 0;
 var count = 0;
 var qCount = 0;
