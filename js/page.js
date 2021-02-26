@@ -98,6 +98,7 @@ function get(){
     ip : returnCitySN["cip"]
   };
   let alert_text = document.getElementById("alert_txt");
+  alert_text.innerHTML = "已关服,无法认证!"
 
   $.ajax({type : "get",
   url : SERVER_URL,
